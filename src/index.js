@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const routes = require('./routers');
-const { getConnection } = require('./config/database');
+const connecttion = require('./config/database');
 
 dotenv.config();
 
@@ -30,16 +30,8 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 routes(app);
 
 // Connect to database and start server
-(async () => {
-    try {
-        const conn = await getConnection();
-        console.log("Database connected!");
-    } catch (err) {
-        console.error("Error connecting to database: ", err);
-        return;
-    }
+connecttion();
 
-    app.listen(PORT, () => {
-        console.log("Server is running on port: ", PORT);
-    });
-})();
+app.listen(PORT, () => {
+    console.log("Server is running on port: ", PORT);
+});
